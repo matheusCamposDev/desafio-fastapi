@@ -1,0 +1,76 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Poetry virtualenvs
+.env/
+.venv/
+
+# Installer logs
+pip-log.txt
+pip-delete-this-directory.txt
+
+# Unit test / coverage reports
+htmlcov/
+.tox/
+.nox/
+.coverage
+.coverage.*
+.cache
+nosetests.xml
+coverage.xml
+*.cover
+.hypothesis/
+
+# Pytest cache
+.pytest_cache/
+
+# MyPy
+.mypy_cache/
+.dmypy.json
+dmypy.json
+
+# Pyre type checker
+.pyre/
+
+# Pydantic compiled models (se usar)
+pydantic_schema_registry/
+
+# IDEs
+.vscode/
+.idea/
+*.sublime-project
+*.sublime-workspace
+
+# OS-specific files
+.DS_Store
+Thumbs.db
+
+# Docker
+*.log
+docker-compose.override.yml
+
+*.tar
+
+.vscode/
+
+poetry.lock  # Opcional: Se for um projeto puro de lib, ignore. Caso contrário, mantenha!
+
+
+*.sqlite3
+
+# FastAPI static/generated
+/static/
+media/
+
+# Logs
+*.log
+
+# Env files (credenciais, configs locais)
+.env
+.env.*
+
+# Others
+*.bak
+*.tmp
