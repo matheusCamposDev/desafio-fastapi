@@ -30,3 +30,28 @@ register_responses = {
     404: {"description": "Not Found", "model": ErrorResponse},
     422: {"description": "Validation Error", "model": ErrorResponse},
 }
+
+login_responses = {
+    200: {
+        "description": "OK",
+        "model": ErrorResponse,
+        "content": {
+            "application/json": {
+                "example": {
+                    "access_token": "str_access_token",
+                    "refresh_token": "str_refresh_token",
+                },
+            },
+        },
+    },
+    400: {
+        "description": "Bad Request",
+        "model": ErrorResponse,
+        "content": {
+            "application/json": {
+                "example": {"detail": "Invalid credentials in the system"},
+            },
+        },
+    },
+    422: {"description": "Validation Error", "model": ErrorResponse},
+}

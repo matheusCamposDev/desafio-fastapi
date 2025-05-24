@@ -1,5 +1,5 @@
 from app.models.user import User, UserCreate
-from app.security import get_password_hash
+from app.security import get_password_hash, verify_password
 from sqlmodel import select, Session
 
 
@@ -11,6 +11,15 @@ def create_user(*, session: Session, user_create: UserCreate) -> User:
     session.commit()
     session.refresh(db_obj)
     return db_obj
+
+
+def authenticate(session: Session, email: str, password: str) -> User | None:
+    db_user = get_user_by_email(session=session, email=email)
+    if not db_user:
+        return None
+    if not verify_password(password, db_user.hashed_password):
+        return None
+    return db_user
 
 
 def get_user_by_email(*, session: Session, email: str) -> User | None:

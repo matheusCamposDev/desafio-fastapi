@@ -1,7 +1,7 @@
 from sqlmodel import Session
 from app.services import user_service
 from app.models.user import UserCreate
-from .utils import random_email, random_lower_string, random_bool
+from ..utils import random_email, random_lower_string, random_bool
 
 
 def test_create_user(db: Session) -> None:
