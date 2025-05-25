@@ -55,3 +55,27 @@ login_responses = {
     },
     422: {"description": "Validation Error", "model": ErrorResponse},
 }
+
+refresh_token_reponses = {
+    200: {
+        "description": "OK",
+        "model": ErrorResponse,
+        "content": {
+            "application/json": {
+                "example": {
+                    "access_token": "str_access_token",
+                },
+            },
+        },
+    },
+    400: {
+        "description": "Bad Request",
+        "model": ErrorResponse,
+        "content": {
+            "application/json": {
+                "example": {"detail": "Invalid Token"},
+            },
+        },
+    },
+    422: {"description": "Validation Error", "model": ErrorResponse},
+}

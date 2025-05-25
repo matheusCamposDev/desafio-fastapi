@@ -1,15 +1,17 @@
 from fastapi import APIRouter, HTTPException, Depends
 from typing import Any
 from app.models.login_data import LoginData
+from app.models.refresh_token import TokenRefreshRequest
 from app.models.user import UserRegister, UserCreate
 from app.services import user_service
 from sqlmodel import Session
 from app.db.session import get_session
-from app.response import register_responses, login_responses
+from app.response import register_responses, login_responses, refresh_token_reponses
 from fastapi.responses import JSONResponse
 from datetime import timedelta
 from dotenv import load_dotenv
 from app import security as security_token
+import app.custom_exception as ce
 import os
 
 load_dotenv()
@@ -68,3 +70,26 @@ def login_access_token(form_data: LoginData, session: Session = Depends(get_sess
         },
         status_code=200,
     )
+
+
+@router.post("/refresh", responses={**refresh_token_reponses})
+def refresh_token(request: TokenRefreshRequest):
+
+    try:
+        user_id = security_token.decodify_refresh_token(request.refresh_token)
+        access_token_expires = timedelta(minutes=int(os.getenv("TOKEN_EXPIRES")))
+        access_token = security_token.create_access_token(
+            user_id,
+            access_token_expires,
+            token_type="access",
+        )
+
+        return JSONResponse(
+            content={"access_token": access_token},
+            status_code=200,
+        )
+
+    except ce.TokenExpired as e:
+        raise HTTPException(status_code=401, detail=str(e))
+    except ce.TokenInvalid as e:
+        raise HTTPException(status_code=401, detail=str(e))

@@ -1,10 +1,18 @@
 from passlib.context import CryptContext
 from datetime import datetime, timedelta, timezone
-from typing import Any
-import jwt
+from jwt import (
+    ExpiredSignatureError,
+    InvalidSignatureError,
+    DecodeError,
+    encode,
+    decode,
+)
+from dotenv import load_dotenv
+import app.custom_exception as ce
+import os
 
-import secrets
 
+load_dotenv()
 
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 
@@ -31,7 +39,30 @@ def create_access_token(
         "type": token_type,
     }
 
-    secret_key = secrets.token_urlsafe(32)
+    # secret_key = secrets.token_urlsafe(32)
 
-    encoded_jwt = jwt.encode(to_encode, secret_key, algorithm=ALGORITHM)
+    encoded_jwt = encode(
+        to_encode,
+        os.getenv("REFRESH_TOKEN_SECRET"),
+        algorithm=ALGORITHM,
+    )
     return encoded_jwt
+
+
+def decodify_refresh_token(token: str):
+    try:
+        payload = decode(
+            token,
+            os.getenv("REFRESH_TOKEN_SECRET"),
+            algorithms=[ALGORITHM],
+        )
+        user_id = payload["sub"]
+        token_type = payload["type"]
+        if user_id is None or token_type is None:
+            raise Exception("Token sem ID de usuário.")
+
+        return int(user_id)
+    except ExpiredSignatureError:
+        raise ce.TokenExpired("Refresh token expirado")
+    except (InvalidSignatureError, DecodeError):
+        raise ce.TokenInvalid("Refresh token inválido")
