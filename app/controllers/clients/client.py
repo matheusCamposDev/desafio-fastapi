@@ -5,6 +5,7 @@ from sqlmodel import Session
 from app.db.session import get_session
 from app.services import client_service
 from app.models.client import ClientOut, ClientCreate, ClientUpdate, Client
+from app.security import authenticate_user
 from app.response import (
     clients_get_responses,
     clients_create_responses,
@@ -13,7 +14,7 @@ from app.response import (
     delete_client_responses,
 )
 
-router = APIRouter()
+router = APIRouter(dependencies=[Depends(authenticate_user)])
 
 
 @router.get("/clients", response_model=List[ClientOut], responses=clients_get_responses)

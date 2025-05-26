@@ -1,7 +1,4 @@
 from pydantic import BaseModel
-from typing import List
-
-from app.models.client import ClientOut
 
 
 class ErrorResponse(BaseModel):

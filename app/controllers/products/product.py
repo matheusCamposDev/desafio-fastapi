@@ -4,6 +4,7 @@ from sqlmodel import Session
 from app.db.session import get_session
 from app.models.product import Product, ProductCreate, ProductUpdate, ProductOut
 from fastapi import HTTPException
+from app.security import authenticate_user
 from app.services import product_service
 from app.response import (
     products_list_responses,
@@ -13,7 +14,7 @@ from app.response import (
     product_delete_responses,
 )
 
-router = APIRouter()
+router = APIRouter(dependencies=[Depends(authenticate_user)])
 
 
 @router.get(

@@ -8,15 +8,16 @@ from jwt import (
     decode,
 )
 from dotenv import load_dotenv
+from fastapi import Depends, HTTPException
 import app.custom_exception as ce
 import os
-
+from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
+import jwt
 
 load_dotenv()
+bearer_scheme = HTTPBearer()
 
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
-
-ALGORITHM = "HS256"
 
 
 def get_password_hash(password: str) -> str:
@@ -44,7 +45,7 @@ def create_access_token(
     encoded_jwt = encode(
         to_encode,
         os.getenv("REFRESH_TOKEN_SECRET"),
-        algorithm=ALGORITHM,
+        algorithm=os.getenv("ALGORITHM"),
     )
     return encoded_jwt
 
@@ -54,7 +55,7 @@ def decodify_refresh_token(token: str):
         payload = decode(
             token,
             os.getenv("REFRESH_TOKEN_SECRET"),
-            algorithms=[ALGORITHM],
+            algorithms=[os.getenv("ALGORITHM")],
         )
         user_id = payload["sub"]
         token_type = payload["type"]
@@ -66,3 +67,20 @@ def decodify_refresh_token(token: str):
         raise ce.TokenExpired("Refresh token expirado")
     except (InvalidSignatureError, DecodeError):
         raise ce.TokenInvalid("Refresh token inválido")
+
+
+def authenticate_user(
+    credentials: HTTPAuthorizationCredentials = Depends(bearer_scheme),
+):
+    token = credentials.credentials
+    try:
+        payload = jwt.decode(
+            token,
+            os.getenv("REFRESH_TOKEN_SECRET"),
+            algorithms=[os.getenv("ALGORITHM")],
+        )
+        return payload
+    except jwt.ExpiredSignatureError:
+        raise HTTPException(status_code=401, detail="Token expirado")
+    except jwt.InvalidTokenError:
+        raise HTTPException(status_code=401, detail="Token inválido")
