@@ -93,6 +93,11 @@ clients_get_responses = {
             },
         },
     },
+    403: {
+        "description": "Forbidden",
+        "model": ErrorResponse,
+        "content": {"application/json": {"example": {"detail": "Not authenticated"}}},
+    },
     404: {
         "description": "Bad Request",
         "model": ErrorResponse,
@@ -133,6 +138,11 @@ clients_create_responses = {
             },
         },
     },
+    403: {
+        "description": "Forbidden",
+        "model": ErrorResponse,
+        "content": {"application/json": {"example": {"detail": "Not authenticated"}}},
+    },
     422: {
         "description": "Not used",
         "model": ErrorResponse,
@@ -159,6 +169,11 @@ get_client_responses = {
                 }
             },
         },
+    },
+    403: {
+        "description": "Forbidden",
+        "model": ErrorResponse,
+        "content": {"application/json": {"example": {"detail": "Not authenticated"}}},
     },
     404: {
         "description": "Bad Request",
@@ -204,6 +219,11 @@ update_client_responses = {
             },
         },
     },
+    403: {
+        "description": "Forbidden",
+        "model": ErrorResponse,
+        "content": {"application/json": {"example": {"detail": "Not authenticated"}}},
+    },
     404: {
         "description": "Not Found",
         "model": ErrorResponse,
@@ -242,6 +262,11 @@ delete_client_responses = {
             },
         },
     },
+    403: {
+        "description": "Forbidden",
+        "model": ErrorResponse,
+        "content": {"application/json": {"example": {"detail": "Not authenticated"}}},
+    },
     404: {
         "description": "Not Found",
         "model": ErrorResponse,
@@ -271,6 +296,11 @@ products_list_responses = {
                 "example": {"detail": "No products found with the given criteria."},
             },
         },
+    },
+    403: {
+        "description": "Forbidden",
+        "model": ErrorResponse,
+        "content": {"application/json": {"example": {"detail": "Not authenticated"}}},
     },
     422: {
         "description": "This response is not used",
@@ -322,6 +352,11 @@ product_create_responses = {
             },
         },
     },
+    403: {
+        "description": "Forbidden",
+        "model": ErrorResponse,
+        "content": {"application/json": {"example": {"detail": "Not authenticated"}}},
+    },
     422: {
         "description": "This response is not used",
         "model": ErrorResponse,
@@ -352,6 +387,11 @@ product_by_id_responses = {
                 },
             },
         },
+    },
+    403: {
+        "description": "Forbidden",
+        "model": ErrorResponse,
+        "content": {"application/json": {"example": {"detail": "Not authenticated"}}},
     },
     404: {
         "description": "Not Found",
@@ -402,6 +442,11 @@ product_put_responses = {
             },
         },
     },
+    403: {
+        "description": "Forbidden",
+        "model": ErrorResponse,
+        "content": {"application/json": {"example": {"detail": "Not authenticated"}}},
+    },
     404: {
         "description": "Not Found",
         "model": ErrorResponse,
@@ -430,6 +475,11 @@ product_delete_responses = {
                 "example": {"detail": "Error deleting product"},
             },
         },
+    },
+    403: {
+        "description": "Forbidden",
+        "model": ErrorResponse,
+        "content": {"application/json": {"example": {"detail": "Not authenticated"}}},
     },
     404: {
         "description": "Not Found",
