@@ -264,3 +264,183 @@ delete_client_responses = {
         },
     },
 }
+
+products_list_responses = {
+    404: {
+        "description": "Not Found",
+        "model": ErrorResponse,
+        "content": {
+            "application/json": {
+                "example": {"detail": "No products found with the given criteria."},
+            },
+        },
+    },
+    422: {
+        "description": "This response is not used",
+        "model": ErrorResponse,
+        "content": {
+            "application/json": {
+                "example": {"detail": "This response is not used"},
+            },
+        },
+    },
+}
+
+product_create_responses = {
+    201: {
+        "description": "Created",
+        "model": ErrorResponse,
+        "content": {
+            "application/json": {
+                "example": {
+                    "description": "string",
+                    "price": 0,
+                    "barcode": "string",
+                    "section": "string",
+                    "stock": 0,
+                    "expiry_date": "2025-05-26",
+                    "available": True,
+                    "image_url": "string",
+                },
+            },
+        },
+    },
+    400: {
+        "description": "Bad Request",
+        "model": ErrorResponse,
+        "content": {
+            "application/json": {
+                "examples": {
+                    "Error product": {
+                        "summary": "Error product",
+                        "value": {"detail": "Error creating product"},
+                    },
+                    "Error codebar": {
+                        "summary": "Error codebar",
+                        "value": {
+                            "detail": "A product with this barcode already exists."
+                        },
+                    },
+                },
+            },
+        },
+    },
+    422: {
+        "description": "This response is not used",
+        "model": ErrorResponse,
+        "content": {
+            "application/json": {
+                "example": {"detail": "This response is not used"},
+            },
+        },
+    },
+}
+
+
+product_by_id_responses = {
+    200: {
+        "description": "OK",
+        "model": ErrorResponse,
+        "content": {
+            "application/json": {
+                "example": {
+                    "description": "string",
+                    "price": 0,
+                    "barcode": "string",
+                    "section": "string",
+                    "stock": 0,
+                    "expiry_date": "2025-05-26",
+                    "available": True,
+                    "image_url": "string",
+                },
+            },
+        },
+    },
+    404: {
+        "description": "Not Found",
+        "model": ErrorResponse,
+        "content": {
+            "application/json": {
+                "example": {"detail": "Product ID not found."},
+            },
+        },
+    },
+    422: {
+        "description": "This response is not used",
+        "model": ErrorResponse,
+        "content": {
+            "application/json": {
+                "example": {"detail": "This response is not used"},
+            },
+        },
+    },
+}
+
+
+product_put_responses = {
+    200: {
+        "description": "OK",
+        "model": ErrorResponse,
+        "content": {
+            "application/json": {
+                "example": {
+                    "description": "string",
+                    "price": 0,
+                    "barcode": "string",
+                    "section": "string",
+                    "stock": 0,
+                    "expiry_date": "2025-05-26",
+                    "available": True,
+                    "image_url": "string",
+                },
+            },
+        },
+    },
+    400: {
+        "description": "Bad Request",
+        "model": ErrorResponse,
+        "content": {
+            "application/json": {
+                "example": {"detail": "Error updating product"},
+            },
+        },
+    },
+    404: {
+        "description": "Not Found",
+        "model": ErrorResponse,
+        "content": {
+            "application/json": {
+                "example": {"detail": "Product ID not found."},
+            },
+        },
+    },
+}
+
+product_delete_responses = {
+    204: {
+        "description": "No Content",
+        "content": {
+            "application/json": {
+                "example": {},
+            },
+        },
+    },
+    400: {
+        "description": "Bad Request",
+        "model": ErrorResponse,
+        "content": {
+            "application/json": {
+                "example": {"detail": "Error deleting product"},
+            },
+        },
+    },
+    404: {
+        "description": "Not Found",
+        "model": ErrorResponse,
+        "content": {
+            "application/json": {
+                "example": {"detail": "Product ID not found."},
+            },
+        },
+    },
+}
