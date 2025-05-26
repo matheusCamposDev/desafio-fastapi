@@ -2,6 +2,7 @@ import pytest
 from sqlmodel import Session, SQLModel, create_engine
 from fastapi.testclient import TestClient
 from app.main import app
+from app.models.client import Client
 
 
 @pytest.fixture

@@ -73,7 +73,7 @@ def login_access_token(form_data: LoginData, session: Session = Depends(get_sess
 
 
 @router.post("/refresh", responses={**refresh_token_reponses})
-def refresh_token(request: TokenRefreshRequest):
+def refresh_token(request: TokenRefreshRequest) -> Any:
 
     try:
         user_id = security_token.decodify_refresh_token(request.refresh_token)

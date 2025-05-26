@@ -1,4 +1,7 @@
 from pydantic import BaseModel
+from typing import List
+
+from app.models.client import ClientOut
 
 
 class ErrorResponse(BaseModel):
@@ -78,4 +81,186 @@ refresh_token_reponses = {
         },
     },
     422: {"description": "Validation Error", "model": ErrorResponse},
+}
+
+clients_get_responses = {
+    200: {
+        "description": "OK",
+        "model": dict,
+        "content": {
+            "application/json": {
+                "example": [
+                    {"id": 1, "name": "João Silva", "email": "joao@example.com"},
+                    {"id": 2, "name": "Maria Souza", "email": "maria@example.com"},
+                ]
+            },
+        },
+    },
+    404: {
+        "description": "Bad Request",
+        "model": ErrorResponse,
+        "content": {
+            "application/json": {
+                "example": {"detail": "No clients found with the given criteria."},
+            },
+        },
+    },
+    422: {
+        "description": "Not used",
+        "model": ErrorResponse,
+        "content": {
+            "application/json": {
+                "example": {"detail": ""},
+            },
+        },
+    },
+}
+
+
+clients_create_responses = {
+    201: {
+        "description": "Created",
+        "model": ErrorResponse,
+        "content": {
+            "application/json": {
+                "example": {"Created": "Client created successfully!"},
+            },
+        },
+    },
+    400: {
+        "description": "Bad Request",
+        "model": ErrorResponse,
+        "content": {
+            "application/json": {
+                "example": {"detail": "Email ou CPF já cadastrado."},
+            },
+        },
+    },
+    422: {
+        "description": "Not used",
+        "model": ErrorResponse,
+        "content": {
+            "application/json": {
+                "example": {"detail": ""},
+            },
+        },
+    },
+}
+
+
+get_client_responses = {
+    200: {
+        "description": "Ok",
+        "model": ErrorResponse,
+        "content": {
+            "application/json": {
+                "example": {
+                    "name": "João Silva",
+                    "email": "joao@example.com",
+                    "cpf": "12345678901",
+                    "id": 1,
+                }
+            },
+        },
+    },
+    404: {
+        "description": "Bad Request",
+        "model": ErrorResponse,
+        "content": {
+            "application/json": {
+                "example": {"detail": "Cliente ID 1 não encontrado"},
+            },
+        },
+    },
+    422: {
+        "description": "Not used",
+        "model": ErrorResponse,
+        "content": {
+            "application/json": {
+                "example": {"detail": ""},
+            },
+        },
+    },
+}
+
+update_client_responses = {
+    200: {
+        "description": "Ok",
+        "model": ErrorResponse,
+        "content": {
+            "application/json": {
+                "example": {
+                    "name": "João Silva",
+                    "email": "joao@example.com",
+                    "cpf": "12345678901",
+                    "id": 1,
+                }
+            },
+        },
+    },
+    400: {
+        "description": "Bad Request",
+        "model": ErrorResponse,
+        "content": {
+            "application/json": {
+                "example": {"detail": "Insira um email válido."},
+            },
+        },
+    },
+    404: {
+        "description": "Not Found",
+        "model": ErrorResponse,
+        "content": {
+            "application/json": {
+                "example": {"detail": "Cliente ID 1 não encontrado"},
+            },
+        },
+    },
+    422: {
+        "description": "Not used",
+        "model": ErrorResponse,
+        "content": {
+            "application/json": {
+                "example": {"detail": ""},
+            },
+        },
+    },
+}
+
+delete_client_responses = {
+    204: {
+        "description": "No Content",
+        "content": {
+            "application/json": {
+                "example": {},
+            },
+        },
+    },
+    400: {
+        "description": "Bad Request",
+        "model": ErrorResponse,
+        "content": {
+            "application/json": {
+                "example": {"detail": "Erro ao deletar cliente. Verifique os dados."},
+            },
+        },
+    },
+    404: {
+        "description": "Not Found",
+        "model": ErrorResponse,
+        "content": {
+            "application/json": {
+                "example": {"detail": "Cliente ID 1 não encontrado"},
+            },
+        },
+    },
+    422: {
+        "description": "Not used",
+        "model": ErrorResponse,
+        "content": {
+            "application/json": {
+                "example": {"detail": ""},
+            },
+        },
+    },
 }
