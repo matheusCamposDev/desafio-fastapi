@@ -1,6 +1,8 @@
-from sqlmodel import Field, SQLModel
+from sqlmodel import Field, Relationship, SQLModel
 from typing import Optional
 from datetime import date
+from typing import List
+from app.models.orderproduct import OrderProduct
 
 
 class ProductBase(SQLModel):
@@ -18,6 +20,9 @@ class Product(ProductBase, table=True):
     id: int = Field(default=None, primary_key=True)
     barcode: str = Field(index=True, unique=True)
     section: str = Field(index=True)
+    orders: List["Order"] = Relationship(
+        back_populates="products", link_model=OrderProduct
+    )
 
 
 class ProductCreate(ProductBase):

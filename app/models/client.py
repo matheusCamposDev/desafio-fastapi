@@ -1,5 +1,6 @@
-from sqlmodel import Field, SQLModel
+from sqlmodel import Field, Relationship, SQLModel
 from pydantic import EmailStr
+from typing import List
 
 
 class ClientBase(SQLModel):
@@ -12,6 +13,7 @@ class Client(ClientBase, table=True):
     id: int = Field(primary_key=True)
     email: str = Field(index=True, unique=True)
     cpf: str = Field(index=True, unique=True)
+    orders: List["Order"] = Relationship(back_populates="client")
 
 
 class ClientCreate(ClientBase):

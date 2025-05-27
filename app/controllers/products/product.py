@@ -14,7 +14,7 @@ from app.response import (
     product_delete_responses,
 )
 
-router = APIRouter(dependencies=[Depends(authenticate_user)])
+router = APIRouter()
 
 
 @router.get(

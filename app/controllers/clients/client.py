@@ -1,5 +1,4 @@
-from fastapi import APIRouter, Response, Depends, Request
-from fastapi.exceptions import RequestValidationError
+from fastapi import APIRouter, Response, Depends
 from typing import List, Optional
 from sqlmodel import Session
 from app.db.session import get_session
@@ -14,7 +13,7 @@ from app.response import (
     delete_client_responses,
 )
 
-router = APIRouter(dependencies=[Depends(authenticate_user)])
+router = APIRouter()
 
 
 @router.get("/clients", response_model=List[ClientOut], responses=clients_get_responses)
