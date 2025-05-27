@@ -13,7 +13,7 @@ from app.response import (
     delete_client_responses,
 )
 
-router = APIRouter()
+router = APIRouter(dependencies=[Depends(authenticate_user)])
 
 
 @router.get("/clients", response_model=List[ClientOut], responses=clients_get_responses)

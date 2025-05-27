@@ -12,12 +12,6 @@ class OrderBase(SQLModel):
     created_at: Optional[datetime] = Field(default_factory=datetime.utcnow)
 
 
-# class OrderProduct(SQLModel, table=True):
-#     order_id: int = Field(foreign_key="order.id", primary_key=True)
-#     product_id: int = Field(foreign_key="product.id", primary_key=True)
-#     quantity: int
-
-
 class Order(OrderBase, table=True):
     id: int = Field(default=None, primary_key=True)
     client: Optional["Client"] = Relationship(back_populates="orders")

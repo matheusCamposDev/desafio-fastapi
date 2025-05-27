@@ -9,7 +9,7 @@ from app.security import authenticate_user
 from sqlmodel import Session
 from app.db.session import get_session
 
-router = APIRouter()
+router = APIRouter(dependencies=[Depends(authenticate_user)])
 
 
 @router.get("/orders", response_model=List[OrderOut])
