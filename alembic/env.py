@@ -7,15 +7,26 @@ from app.models.client import Client
 from app.models.product import Product
 from app.models.order import Order, OrderProduct
 from alembic import context
+import os
+from sqlalchemy.engine import URL
 
 # this is the Alembic Config object, which provides
 # access to the values within the .ini file in use.
 config = context.config
 
+DATABASE_URL = os.getenv("DATABASE_URL")
+
+if DATABASE_URL:
+    config.set_main_option("sqlalchemy.url", DATABASE_URL)
+else:
+    raise Exception("DATABASE_URL não definida")
+
 # Interpret the config file for Python logging.
 # This line sets up loggers basically.
 if config.config_file_name is not None:
     fileConfig(config.config_file_name)
+
+DATABASE_URL = os.getenv("DATABASE_URL")
 
 # add your model's MetaData object here
 # for 'autogenerate' support
