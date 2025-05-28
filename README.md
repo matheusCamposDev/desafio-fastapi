@@ -37,5 +37,8 @@ Exemplo:
 
 4. Tenha o docker e docker compose instalado na sua máquina e excute o comando: `docker compose up --build`
 
-5. Acesse a aplicação através do container pelo link: `http://0.0.0.0:8000/docs`
+5. Acesse a aplicação através do container pelo link:
 
+        Linux: `http://0.0.0.0:8000/docs`
+        
+        Windows: `http://localhost:8000/docs`
