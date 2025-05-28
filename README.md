@@ -20,9 +20,7 @@ Você pode acessar a versão online disponível no Render através do link: http
 
 1. Clone o repositório: `https://github.com/matheusCamposDev?tab=repositories`
 
-2. Tenha instalado o poetry na máquina local e execute o seguinte comando na pasta onde tem pyproject.toml: `poetry install`
-
-3. Crie um arquivo `.env` na mesma pasta do app e configure as variáveis de ambiente:
+2. Crie um arquivo `.env` na mesma pasta do app e configure as variáveis de ambiente:
 
 Exemplo:
     
