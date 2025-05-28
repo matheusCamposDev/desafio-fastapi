@@ -10,7 +10,7 @@ class ClientBase(SQLModel):
 
 
 class Client(ClientBase, table=True):
-    id: int = Field(primary_key=True)
+    id: int | None = Field(default=None, primary_key=True)
     email: str = Field(index=True, unique=True)
     cpf: str = Field(index=True, unique=True)
     orders: List["Order"] = Relationship(back_populates="client")

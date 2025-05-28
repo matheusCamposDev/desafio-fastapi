@@ -17,7 +17,7 @@ class ProductBase(SQLModel):
 
 
 class Product(ProductBase, table=True):
-    id: int = Field(default=None, primary_key=True)
+    id: int | None = Field(default=None, primary_key=True)
     barcode: str = Field(index=True, unique=True)
     section: str = Field(index=True)
     orders: List["Order"] = Relationship(

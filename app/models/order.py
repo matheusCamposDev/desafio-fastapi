@@ -13,7 +13,7 @@ class OrderBase(SQLModel):
 
 
 class Order(OrderBase, table=True):
-    id: int = Field(default=None, primary_key=True)
+    id: int | None = Field(default=None, primary_key=True)
     client: Optional["Client"] = Relationship(back_populates="orders")
     products: List["Product"] = Relationship(
         back_populates="orders", link_model=OrderProduct
