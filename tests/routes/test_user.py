@@ -1,6 +1,6 @@
 from sqlmodel import Session
 from app.services import user_service
-from app.models.user import UserCreate
+from app.models.user import UserRegister
 from ..utils import random_email, random_lower_string, random_bool
 
 
@@ -9,7 +9,7 @@ def test_create_user(db: Session) -> None:
     password = random_lower_string()  # Gera um password aleatório
     full_name = random_lower_string()  # gera um full name aleatório
     is_admin = random_bool()  # gera um True ou False aleatório
-    user_in = UserCreate(
+    user_in = UserRegister(
         email=email,
         is_admin=is_admin,
         full_name=full_name,
