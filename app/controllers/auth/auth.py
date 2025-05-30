@@ -3,7 +3,7 @@ from app.models.login_data import LoginData
 from app.models.refresh_token import TokenRefreshRequest
 from app.models.user import UserRegister, UserRead
 from app import security as security_token
-from app.services import user_service
+from app.services import auth_service
 from app.db.session import get_session
 from app.response import register_responses, login_responses, refresh_token_reponses
 from datetime import timedelta
@@ -24,7 +24,7 @@ def register(user_in: UserRegister, session: Session = Depends(get_session)):
     """
     Create a new user.
     """
-    user_service.create_user(session=session, user=user_in)
+    auth_service.create_user(session=session, user=user_in)
 
     return JSONResponse(
         status_code=201, content={"detail": "User created successfully"}
@@ -34,9 +34,9 @@ def register(user_in: UserRegister, session: Session = Depends(get_session)):
 @router.post("/login", responses={**login_responses})
 def login_access_token(form_data: LoginData, session: Session = Depends(get_session)):
     """
-    Login with acess token,
+    Login with access token,
     """
-    user = user_service.authenticate(
+    user = auth_service.authenticate(
         session=session,
         email=form_data.email,
         password=form_data.password,

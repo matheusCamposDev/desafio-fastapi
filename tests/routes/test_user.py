@@ -1,5 +1,5 @@
 from sqlmodel import Session
-from app.services import user_service
+from app.services import auth_service
 from app.models.user import UserRegister
 from ..utils import random_email, random_lower_string, random_bool
 
@@ -15,6 +15,6 @@ def test_create_user(db: Session) -> None:
         full_name=full_name,
         password=password,
     )
-    user = user_service.create_user(session=db, user=user_in)
+    user = auth_service.create_user(session=db, user=user_in)
     assert user.email == email
     assert hasattr(user, "hashed_password")
