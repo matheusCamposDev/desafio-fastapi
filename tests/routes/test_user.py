@@ -15,6 +15,6 @@ def test_create_user(db: Session) -> None:
         full_name=full_name,
         password=password,
     )
-    user = user_service.create_user(session=db, user_create=user_in)
+    user = user_service.create_user(session=db, user=user_in)
     assert user.email == email
     assert hasattr(user, "hashed_password")
