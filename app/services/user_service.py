@@ -1,20 +1,37 @@
-from app.models.user import User, UserCreate
-from app.security import get_password_hash, verify_password
+from sqlalchemy.exc import IntegrityError
+from app.models.user import User, UserRegister
+from app.security import verify_password
 from sqlmodel import select, Session
+from fastapi import HTTPException
+from app.security import get_password_hash
 
 
-def create_user(*, session: Session, user_create: UserCreate) -> User:
-    db_obj = User.model_validate(
-        user_create, update={"hashed_password": get_password_hash(user_create.password)}
-    )
-    session.add(db_obj)
-    session.commit()
-    session.refresh(db_obj)
-    return db_obj
+def create_user(session: Session, user: UserRegister) -> User:
+    try:
+        user_db = User(
+            email=user.email,
+            full_name=user.full_name,
+            is_admin=user.is_admin,
+            hashed_password=get_password_hash(user.password),
+        )
+
+        session.add(user_db)
+        session.commit()
+        session.refresh(user_db)
+
+        return user_db
+
+    except IntegrityError as e:
+        session.rollback()
+
+        raise HTTPException(
+            status_code=400,
+            detail="Invalid email. This email is already in use.",
+        )
 
 
 def authenticate(session: Session, email: str, password: str) -> User | None:
-    db_user = get_user_by_email(session=session, email=email)
+    db_user = checkUserByEmail(session=session, email=email)
     if not db_user:
         return None
     if not verify_password(password, db_user.hashed_password):
@@ -22,7 +39,7 @@ def authenticate(session: Session, email: str, password: str) -> User | None:
     return db_user
 
 
-def get_user_by_email(*, session: Session, email: str) -> User | None:
+def checkUserByEmail(session: Session, email: str) -> User | None:
     statement = select(User).where(User.email == email)
     session_user = session.exec(statement).first()
     return session_user

@@ -1,6 +1,7 @@
 from pydantic import EmailStr
 from sqlmodel import Field, SQLModel
 
+
 class UserBase(SQLModel):
     email: EmailStr = Field(unique=True, index=True, max_length=255)
     is_admin: bool = False
@@ -19,5 +20,8 @@ class User(UserBase, table=True):
     hashed_password: str
 
 
-class UserCreate(UserBase):
-    password: str = Field(min_length=8, max_length=40)
+class UserRead(UserBase):
+    id: int
+    is_admin: bool
+    hashed_password: str | None = None
+    full_name: str | None = None

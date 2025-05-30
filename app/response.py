@@ -6,13 +6,12 @@ class ErrorResponse(BaseModel):
 
 
 register_responses = {
-    200: {"description": "This response is not used"},
-    201: {
-        "description": "Created",
+    200: {
+        "description": "User created successfully",
         "model": ErrorResponse,
         "content": {
             "application/json": {
-                "example": {"Created": "User created!"},
+                "example": {"detail": "User created successfully"},
             },
         },
     },
@@ -21,14 +20,10 @@ register_responses = {
         "model": ErrorResponse,
         "content": {
             "application/json": {
-                "example": {
-                    "detail": "The user with this email already exists in the system"
-                },
+                "example": {"detail": "Invalid email. This email is already in use."},
             },
         },
     },
-    404: {"description": "Not Found", "model": ErrorResponse},
-    422: {"description": "Validation Error", "model": ErrorResponse},
 }
 
 login_responses = {
@@ -368,7 +363,6 @@ product_create_responses = {
     },
 }
 
-
 product_by_id_responses = {
     200: {
         "description": "OK",
@@ -412,7 +406,6 @@ product_by_id_responses = {
         },
     },
 }
-
 
 product_put_responses = {
     200: {

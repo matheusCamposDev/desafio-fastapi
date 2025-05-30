@@ -1,17 +1,17 @@
-from fastapi import APIRouter, HTTPException, Depends
-from typing import Any
+import app.custom_exception as ce
 from app.models.login_data import LoginData
 from app.models.refresh_token import TokenRefreshRequest
-from app.models.user import UserRegister, UserCreate
+from app.models.user import UserRegister, UserRead
+from app import security as security_token
 from app.services import user_service
-from sqlmodel import Session
 from app.db.session import get_session
 from app.response import register_responses, login_responses, refresh_token_reponses
-from fastapi.responses import JSONResponse
 from datetime import timedelta
 from dotenv import load_dotenv
-from app import security as security_token
-import app.custom_exception as ce
+from fastapi import APIRouter, HTTPException, Depends
+from fastapi.responses import JSONResponse
+from typing import Any
+from sqlmodel import Session
 import os
 
 load_dotenv()
@@ -19,20 +19,16 @@ load_dotenv()
 router = APIRouter()
 
 
-@router.post("/register", responses={**register_responses})
-def register(user_in: UserRegister, session: Session = Depends(get_session)) -> Any:
+@router.post("/register", response_model=UserRead, responses=register_responses)
+def register(user_in: UserRegister, session: Session = Depends(get_session)):
     """
-    Create new user.
+    Create a new user.
     """
-    user = user_service.get_user_by_email(session=session, email=user_in.email)
-    if user:
-        raise HTTPException(
-            status_code=400,
-            detail="The user with this email already exists in the system",
-        )
-    user_create = UserCreate.model_validate(user_in)
-    user_service.create_user(session=session, user_create=user_create)
-    return JSONResponse({"Created": "User Created!"}, status_code=201)
+    user_service.create_user(session=session, user=user_in)
+
+    return JSONResponse(
+        status_code=201, content={"detail": "User created successfully"}
+    )
 
 
 @router.post("/login", responses={**login_responses})
