@@ -1,5 +1,6 @@
 import app.custom_exception as ce
-from app.models.login_data import LoginData
+import os
+from app.models.login_data import LoginData, LoginResponse
 from app.models.refresh_token import TokenRefreshRequest
 from app.models.user import UserRegister, UserRead
 from app import security as security_token
@@ -12,7 +13,6 @@ from fastapi import APIRouter, HTTPException, Depends
 from fastapi.responses import JSONResponse
 from typing import Any
 from sqlmodel import Session
-import os
 
 load_dotenv()
 
@@ -31,40 +31,20 @@ def register(user_in: UserRegister, session: Session = Depends(get_session)):
     )
 
 
-@router.post("/login", responses={**login_responses})
+@router.post("/login", response_model=LoginResponse, responses=login_responses)
 def login_access_token(form_data: LoginData, session: Session = Depends(get_session)):
     """
-    Login with access token,
+    Login with access token.
     """
-    user = auth_service.authenticate(
-        session=session,
-        email=form_data.email,
-        password=form_data.password,
-    )
-    if not user:
-        raise HTTPException(status_code=400, detail="Incorrect email or password")
-
-    access_token_expires = timedelta(minutes=int(os.getenv("TOKEN_EXPIRES")))
-    refresh_token_expires = timedelta(days=int(os.getenv("REFRESH_TOKEN_EXPIRES")))
-
-    access_token = security_token.create_access_token(
-        user.id,
-        expires_delta=access_token_expires,
-        token_type="access",
-    )
-
-    refresh_token = security_token.create_access_token(
-        user.id,
-        expires_delta=refresh_token_expires,
-        token_type="refresh",
-    )
+    token = auth_service.authenticate(session=session, loginData=form_data)
 
     return JSONResponse(
-        content={
-            "access_token": access_token,
-            "refresh_token": refresh_token,
-        },
         status_code=200,
+        content={
+            "access_token": token["access_token"],
+            "refresh_token": token["refresh_token"],
+            "token_type": token["token_type"],
+        },
     )
 
 

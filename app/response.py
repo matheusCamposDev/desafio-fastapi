@@ -35,6 +35,7 @@ login_responses = {
                 "example": {
                     "access_token": "str_access_token",
                     "refresh_token": "str_refresh_token",
+                    "token_type": "bearer",
                 },
             },
         },
@@ -48,7 +49,6 @@ login_responses = {
             },
         },
     },
-    422: {"description": "Validation Error", "model": ErrorResponse},
 }
 
 refresh_token_reponses = {
