@@ -1,8 +1,6 @@
 from fastapi.testclient import TestClient
 from unittest.mock import patch
 from app.main import app
-from app.models.login_data import LoginData
-from app.models.user import User
 
 client = TestClient(app)
 
